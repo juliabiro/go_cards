@@ -5,13 +5,13 @@ import (
 )
 
 func main() {
-	cards := NewDeck()
-	cards.Shuffle()
+	cards := newDeck()
+	cards.shuffle()
 
-	hand, remaining := Deal(cards, 5)
+	hand, remaining := deal(cards, 5)
 	fmt.Println(remaining)
 
-	hand.SaveToFile("myfirstsave")
+	hand.saveToFile("myfirstsave")
 
-	NewDeckFromFile("myfirstsave").print()
+	newDeckFromFile("myfirstsave").print()
 }

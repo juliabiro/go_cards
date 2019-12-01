@@ -12,7 +12,7 @@ import (
 // create new deck type
 type deck []string //slice, not array
 
-func NewDeck() deck {
+func newDeck() deck {
 	cards := deck{}
 
 	cardSuits := []string{"Spades", "Hearts", "Diamonds", "Clubs"}
@@ -37,7 +37,7 @@ func (d deck) print() {
 	}
 }
 
-func Deal(d deck, handSize int) (deck, deck) { //return 2 decks: we need the remaining one too
+func deal(d deck, handSize int) (deck, deck) { //return 2 decks: we need the remaining one too
 	// why is deck a parameter and not a reciever? because it is an input
 	// it is copied
 	// it doesn't change d
@@ -49,12 +49,12 @@ func (d deck) toString() string {
 	return strings.Join([]string(d), ",")
 }
 
-func (d deck) SaveToFile(filename string) error {
+func (d deck) saveToFile(filename string) error {
 	return ioutil.WriteFile(filename, []byte(d.toString()), 0644)
 	// []byte("string") converts to byteslice
 }
 
-func NewDeckFromFile(filename string) deck {
+func newDeckFromFile(filename string) deck {
 	read, err := ioutil.ReadFile(filename)
 	if err != nil {
 		fmt.Println("Error", err)
@@ -63,7 +63,7 @@ func NewDeckFromFile(filename string) deck {
 	return deck(strings.Split(string(read), ","))
 }
 
-func (d deck) Shuffle() {
+func (d deck) shuffle() {
 	//true random
 	source := rand.NewSource(time.Now().UnixNano())
 	r := rand.New(source)
