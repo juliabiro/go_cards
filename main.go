@@ -1,15 +1,15 @@
 package main
 
 import (
-	"fmt"
+//"fmt"
 )
 
 func main() {
 	cards := newDeck()
 	cards.shuffle()
 
-	hand, remaining := deal(cards, 5)
-	fmt.Println(remaining)
+	hand, _ := deal(cards, 5)
+	//fmt.Println(remaining)
 
 	hand.saveToFile("myfirstsave")
 

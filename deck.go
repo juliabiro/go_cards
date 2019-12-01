@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"math/rand"
@@ -10,7 +11,7 @@ import (
 )
 
 // create new deck type
-type deck []string //slice, not array
+type deck []card //slice, not array
 
 func newDeck() deck {
 	cards := deck{}
@@ -20,7 +21,7 @@ func newDeck() deck {
 
 	for _, s := range cardSuits {
 		for _, f := range cardFaces {
-			cards = append(cards, f+" of "+s) // doesn't modify original slice, but returns a new one
+			cards = append(cards, card{suit: s, face: f}) // doesn't modify original slice, but returns a new one
 		}
 	}
 	return cards
@@ -33,7 +34,7 @@ func (d deck) print() {
 
 	for _, card := range d { //index, value for iteration
 		// under the hood it is reintializing the index and value variables, hence the :=
-		fmt.Println(card)
+		fmt.Println(card.toString())
 	}
 }
 
@@ -46,7 +47,12 @@ func deal(d deck, handSize int) (deck, deck) { //return 2 decks: we need the rem
 }
 
 func (d deck) toString() string {
-	return strings.Join([]string(d), ",")
+	var ret []string
+	for _, card := range d {
+		ret = append(ret, card.toString())
+	}
+	// using Join makes sure there are no trailing separators
+	return strings.Join(ret, ",")
 }
 
 func (d deck) saveToFile(filename string) error {
@@ -60,7 +66,17 @@ func newDeckFromFile(filename string) deck {
 		fmt.Println("Error", err)
 		os.Exit(-1)
 	}
-	return deck(strings.Split(string(read), ","))
+	var d deck
+	for _, s := range strings.Split(string(read), ",") {
+		c, err := fromString(s)
+		if err != nil {
+			errors.New("incorrect card string: " + s)
+			os.Exit(-1)
+		}
+		d = append(d, c)
+	}
+
+	return d
 }
 
 func (d deck) shuffle() {
