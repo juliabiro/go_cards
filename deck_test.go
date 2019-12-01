@@ -6,7 +6,7 @@ import (
 )
 
 func TestNewDeck(t *testing.T) {
-	d := newDeck()
+	d := NewDeck()
 	if len(d) != 52 {
 		t.Errorf("expected deck length 52, but got %d", len(d))
 	}
@@ -20,14 +20,14 @@ func TestNewDeck(t *testing.T) {
 }
 
 func TestDeal(t *testing.T) {
-	d := newDeck()
-	hand, _ := deal(d, 10)
+	d := NewDeck()
+	hand, _ := Deal(d, 10)
 	if len(hand) != 10 {
 		t.Errorf("expected hand length 10, but got %d", len(hand))
 	}
 }
 func TestNewDeckFromFile(t *testing.T) {
-	d := newDeckFromFile("test_hand.data")
+	d := NewDeckFromFile("test_hand.data")
 	if d[0].toString() != "Two of Diamonds" {
 		t.Errorf("expected test decks first card should be Two of Diamonds, but got %s", d[0])
 	}
@@ -40,7 +40,7 @@ func TestDeck_SaveToFile(t *testing.T) {
 	testfilename := "_decktesting"
 
 	os.Remove(testfilename)
-	d := newDeck()
+	d := NewDeck()
 	d.saveToFile(testfilename)
 
 	if _, err := os.Stat(testfilename); os.IsNotExist(err) {
@@ -50,7 +50,7 @@ func TestDeck_SaveToFile(t *testing.T) {
 	os.Remove(testfilename)
 }
 func TestDeck_Shuffle(t *testing.T) {
-	d := newDeck()
+	d := NewDeck()
 
 	first := d[0]
 	d.shuffle()
