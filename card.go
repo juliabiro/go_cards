@@ -6,6 +6,9 @@ import (
 )
 
 type card struct {
+	// this will be passed around by reference
+	// struct variables are pointers really:w
+
 	suit string
 	face string
 }
@@ -25,3 +28,5 @@ func fromString(s string) (card, error) {
 	c.face = data[0]
 	return c, nil
 }
+
+// type X variables can be passed to functions as a receiver with *X receiver types, and it will be correct and &X will be passed.

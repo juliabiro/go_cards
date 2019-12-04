@@ -12,6 +12,7 @@ import (
 
 // create new deck type
 type deck []card //slice, not array
+// it will always be passed as a value
 
 func NewDeck() deck {
 	cards := deck{}
